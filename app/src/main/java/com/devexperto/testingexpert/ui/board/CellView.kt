@@ -39,4 +39,9 @@ class CellView @JvmOverloads constructor(
         setMeasuredDimension(width, height)
     }
 
+    fun update(value: String, enabled: Boolean) {
+        text = value
+        isClickable = text.isNullOrBlank() && enabled
+    }
+
 }

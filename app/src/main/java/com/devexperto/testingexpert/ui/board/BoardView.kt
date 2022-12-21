@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.devexperto.testingexpert.databinding.ViewBoardBinding
+import com.devexperto.testingexpert.domain.GameState
 
 class BoardView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -12,25 +13,37 @@ class BoardView @JvmOverloads constructor(
 
     var onClick: (row: Int, column: Int) -> Unit = { _, _ -> }
 
-    private val binding: ViewBoardBinding = ViewBoardBinding.inflate(LayoutInflater.from(context), this)
+    private val binding: ViewBoardBinding =
+        ViewBoardBinding.inflate(LayoutInflater.from(context), this)
 
     init {
         orientation = VERTICAL
 
-        binding.btn00.setOnClickListener { onClick(0, 0) }
-        binding.btn01.setOnClickListener { onClick(0, 1) }
-        binding.btn02.setOnClickListener { onClick(0, 2) }
-        binding.btn10.setOnClickListener { onClick(1, 0) }
-        binding.btn11.setOnClickListener { onClick(1, 1) }
-        binding.btn12.setOnClickListener { onClick(1, 2) }
-        binding.btn20.setOnClickListener { onClick(2, 0) }
-        binding.btn21.setOnClickListener { onClick(2, 1) }
-        binding.btn22.setOnClickListener { onClick(2, 2) }
+        with(binding) {
+            btn00.setOnClickListener { onClick(0, 0) }
+            btn01.setOnClickListener { onClick(0, 1) }
+            btn02.setOnClickListener { onClick(0, 2) }
+            btn10.setOnClickListener { onClick(1, 0) }
+            btn11.setOnClickListener { onClick(1, 1) }
+            btn12.setOnClickListener { onClick(1, 2) }
+            btn20.setOnClickListener { onClick(2, 0) }
+            btn21.setOnClickListener { onClick(2, 1) }
+            btn22.setOnClickListener { onClick(2, 2) }
+        }
+    }
 
-        // Temp: random values
-        binding.btn00.text = "0"
-        binding.btn01.text = "X"
-        binding.btn20.text = "X"
-        binding.btn22.text = "0"
+    fun update(state: BoardViewModel.UiState): Unit = with(binding) {
+        val board = state.ticTacToe.board
+        val gameState = state.gameState
+
+        btn00.update(board[0][0].toString(), gameState == GameState.InProgress)
+        btn01.update(board[0][1].toString(), gameState == GameState.InProgress)
+        btn02.update(board[0][2].toString(), gameState == GameState.InProgress)
+        btn10.update(board[1][0].toString(), gameState == GameState.InProgress)
+        btn11.update(board[1][1].toString(), gameState == GameState.InProgress)
+        btn12.update(board[1][2].toString(), gameState == GameState.InProgress)
+        btn20.update(board[2][0].toString(), gameState == GameState.InProgress)
+        btn21.update(board[2][1].toString(), gameState == GameState.InProgress)
+        btn22.update(board[2][2].toString(), gameState == GameState.InProgress)
     }
 }
