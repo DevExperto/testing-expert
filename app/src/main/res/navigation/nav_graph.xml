@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/boardFragment"
-        android:name="com.devexperto.testingexpert.ui.BoardFragment"
+        android:name="com.devexperto.testingexpert.ui.board.BoardFragment"
         android:label="fragment_board"
         tools:layout="@layout/fragment_board" />
 </navigation>
