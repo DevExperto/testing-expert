@@ -1,6 +1,7 @@
 package com.devexperto.testingexpert.data
 
-import androidx.room.*
+import com.devexperto.testingexpert.data.db.GameDao
+import com.devexperto.testingexpert.data.db.MoveEntity
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.domain.move
 import kotlinx.coroutines.flow.Flow
@@ -44,30 +45,4 @@ class GameRepository(private val localDataSource: GameDataSource) {
     suspend fun reset() {
         localDataSource.reset()
     }
-}
-
-@Entity
-data class MoveEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    val row: Int,
-    val column: Int
-)
-
-@Dao
-interface GameDao {
-
-    @Query("SELECT * FROM MoveEntity")
-    fun getGame(): Flow<List<MoveEntity>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveMove(move: MoveEntity)
-
-    @Query("DELETE FROM MoveEntity")
-    suspend fun reset()
-
-}
-
-@Database(entities = [MoveEntity::class], version = 1)
-abstract class AppDatabase : RoomDatabase() {
-    abstract val gameDao: GameDao
 }
