@@ -7,22 +7,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.devexperto.testingexpert.App
 import com.devexperto.testingexpert.R
-import com.devexperto.testingexpert.data.GameRepository
-import com.devexperto.testingexpert.data.RoomGameDataSource
 import com.devexperto.testingexpert.databinding.FragmentBoardBinding
 import com.devexperto.testingexpert.domain.GameState
 import com.devexperto.testingexpert.domain.Winner
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class BoardFragment : Fragment(R.layout.fragment_board) {
 
-    private val viewModel: BoardViewModel by viewModels {
-        val db = (requireActivity().application as App).db
-        val gameRepository = GameRepository(RoomGameDataSource(db.gameDao))
-        BoardViewModelFactory(gameRepository)
-    }
+    private val viewModel: BoardViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

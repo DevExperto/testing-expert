@@ -1,17 +1,19 @@
 package com.devexperto.testingexpert.ui.board
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.devexperto.testingexpert.data.GameRepository
 import com.devexperto.testingexpert.domain.GameState
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.domain.findWinner
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BoardViewModel(private val gameRepository: GameRepository) : ViewModel() {
+@HiltViewModel
+class BoardViewModel @Inject constructor(private val gameRepository: GameRepository) : ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
     val state = _state.asStateFlow()
@@ -47,12 +49,4 @@ class BoardViewModel(private val gameRepository: GameRepository) : ViewModel() {
         val ticTacToe: TicTacToe = TicTacToe(),
         val gameState: GameState = GameState.NotStarted
     )
-}
-
-@Suppress("UNCHECKED_CAST")
-class BoardViewModelFactory(private val gameRepository: GameRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return BoardViewModel(gameRepository) as T
-    }
 }
