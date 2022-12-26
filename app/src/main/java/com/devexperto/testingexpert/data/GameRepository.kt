@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.map
 interface GameDataSource {
     val game: Flow<TicTacToe>
     suspend fun saveMove(row: Int, column: Int)
+    suspend fun reset()
 }
 
 class RoomGameDataSource(
@@ -20,6 +21,10 @@ class RoomGameDataSource(
 
     override suspend fun saveMove(row: Int, column: Int) {
         gameDao.saveMove(MoveEntity(0, row, column))
+    }
+
+    override suspend fun reset() {
+        gameDao.reset()
     }
 }
 
@@ -34,6 +39,10 @@ class GameRepository(private val localDataSource: GameDataSource) {
 
     suspend fun move(row: Int, column: Int) {
         localDataSource.saveMove(row, column)
+    }
+
+    suspend fun reset() {
+        localDataSource.reset()
     }
 }
 
@@ -52,6 +61,9 @@ interface GameDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMove(move: MoveEntity)
+
+    @Query("DELETE FROM MoveEntity")
+    suspend fun reset()
 
 }
 

@@ -36,6 +36,13 @@ class BoardViewModel(private val gameRepository: GameRepository) : ViewModel() {
         }
     }
 
+    fun resetGame() {
+        viewModelScope.launch {
+            gameRepository.reset()
+            startGame()
+        }
+    }
+
     data class UiState(
         val ticTacToe: TicTacToe = TicTacToe(),
         val gameState: GameState = GameState.NotStarted
