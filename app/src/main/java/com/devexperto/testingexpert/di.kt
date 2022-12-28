@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.room.Room
 import com.devexperto.testingexpert.data.datasource.GameDataSource
 import com.devexperto.testingexpert.data.datasource.RoomGameDataSource
+import com.devexperto.testingexpert.data.datasource.RoomScoreDataSource
+import com.devexperto.testingexpert.data.datasource.ScoreDataSource
 import com.devexperto.testingexpert.data.db.AppDatabase
 import dagger.Binds
 import dagger.Module
@@ -28,6 +30,10 @@ object AppModule {
     @Singleton
     fun provideGameDao(db: AppDatabase) = db.gameDao
 
+    @Provides
+    @Singleton
+    fun provideScoreDao(db: AppDatabase) = db.scoreDao
+
 }
 
 @InstallIn(SingletonComponent::class)
@@ -36,5 +42,8 @@ abstract class AppDataModule {
 
     @Binds
     abstract fun bindGameDataSource(impl: RoomGameDataSource): GameDataSource
+
+    @Binds
+    abstract fun bindScoreDataSource(impl: RoomScoreDataSource): ScoreDataSource
 
 }

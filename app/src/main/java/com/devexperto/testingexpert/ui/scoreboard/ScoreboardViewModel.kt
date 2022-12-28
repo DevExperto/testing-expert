@@ -9,6 +9,6 @@ import javax.inject.Inject
 class ScoreboardViewModel @Inject constructor(scoreboardRepository: ScoreboardRepository) :
     ViewModel() {
 
-    val scores = scoreboardRepository.getScores()
+    val scores = scoreboardRepository.scores
 
 }

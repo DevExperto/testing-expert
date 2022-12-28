@@ -20,6 +20,8 @@ fun TicTacToe.findWinner(): Winner? {
     }
 }
 
+fun TicTacToe.numberOfMoves(): Int = board.flatten().count { it != Empty }
+
 private fun TicTacToe.isBoardComplete(): Boolean {
     return board.flatten().none { it == Empty }
 }
