@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_board"
+        android:enabled="true"
+        android:icon="@drawable/ic_game"
+        android:title="@string/game" />
+
+    <item
+        android:id="@+id/navigation_scoreboard"
+        android:enabled="true"
+        android:icon="@drawable/ic_scoreboard"
+        android:title="@string/scoreboard" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
+
+</menu>
