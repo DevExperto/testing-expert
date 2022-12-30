@@ -2,7 +2,7 @@ package com.devexperto.testingexpert.ui.board
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.devexperto.testingexpert.data.GameRepository
+import com.devexperto.testingexpert.data.BoardRepository
 import com.devexperto.testingexpert.data.ScoreboardRepository
 import com.devexperto.testingexpert.domain.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BoardViewModel @Inject constructor(
-    private val gameRepository: GameRepository,
+    private val boardRepository: BoardRepository,
     private val scoreboardRepository: ScoreboardRepository
 ) : ViewModel() {
 
@@ -23,16 +23,16 @@ class BoardViewModel @Inject constructor(
 
     fun startGame() {
         viewModelScope.launch {
-            gameRepository.game.collect { game ->
+            boardRepository.board.collect { board ->
                 _state.value = UiState(
-                    ticTacToe = game,
-                    gameState = when (val winner = game.findWinner()) {
+                    ticTacToe = board,
+                    gameState = when (val winner = board.findWinner()) {
                         null -> GameState.InProgress
                         else -> {
                             scoreboardRepository.addScore(
                                 Score(
                                     winner,
-                                    game.numberOfMoves(),
+                                    board.numberOfMoves(),
                                     Date()
                                 )
                             )
@@ -46,13 +46,13 @@ class BoardViewModel @Inject constructor(
 
     fun move(row: Int, column: Int) {
         viewModelScope.launch {
-            gameRepository.move(row, column)
+            boardRepository.move(row, column)
         }
     }
 
     fun resetGame() {
         viewModelScope.launch {
-            gameRepository.reset()
+            boardRepository.reset()
             startGame()
         }
     }

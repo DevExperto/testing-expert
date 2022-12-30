@@ -6,15 +6,15 @@ import kotlinx.coroutines.flow.Flow
 @Database(entities = [MoveEntity::class, ScoreEntity::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract val gameDao: GameDao
+    abstract val boardDao: BoardDao
     abstract val scoreDao: ScoreDao
 }
 
 @Dao
-interface GameDao {
+interface BoardDao {
 
     @Query("SELECT * FROM MoveEntity")
-    fun getGame(): Flow<List<MoveEntity>>
+    fun getBoard(): Flow<List<MoveEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMove(move: MoveEntity)

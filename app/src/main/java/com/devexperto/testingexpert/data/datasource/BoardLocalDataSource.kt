@@ -1,6 +1,6 @@
 package com.devexperto.testingexpert.data.datasource
 
-import com.devexperto.testingexpert.data.db.GameDao
+import com.devexperto.testingexpert.data.db.BoardDao
 import com.devexperto.testingexpert.data.db.MoveEntity
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.domain.move
@@ -8,25 +8,25 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-interface GameDataSource {
-    val game: Flow<TicTacToe>
+interface BoardLocalDataSource {
+    val board: Flow<TicTacToe>
     suspend fun saveMove(row: Int, column: Int)
     suspend fun reset()
 }
 
-class RoomGameDataSource @Inject constructor(
-    private val gameDao: GameDao
-) : GameDataSource {
+class RoomBoardDataSource @Inject constructor(
+    private val boardDao: BoardDao
+) : BoardLocalDataSource {
 
-    override val game: Flow<TicTacToe>
-        get() = gameDao.getGame().map { it.toTicTacToe() }
+    override val board: Flow<TicTacToe>
+        get() = boardDao.getBoard().map { it.toTicTacToe() }
 
     override suspend fun saveMove(row: Int, column: Int) {
-        gameDao.saveMove(MoveEntity(0, row, column))
+        boardDao.saveMove(MoveEntity(0, row, column))
     }
 
     override suspend fun reset() {
-        gameDao.reset()
+        boardDao.reset()
     }
 }
 

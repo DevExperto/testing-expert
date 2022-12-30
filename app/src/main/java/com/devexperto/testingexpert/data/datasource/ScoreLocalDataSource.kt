@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-interface ScoreDataSource {
+interface ScoreLocalDataSource {
 
     val scores: Flow<List<Score>>
 
     suspend fun addScore(score: Score)
 }
 
-class RoomScoreDataSource @Inject constructor(private val scoreDao: ScoreDao) : ScoreDataSource {
+class RoomScoreDataSource @Inject constructor(private val scoreDao: ScoreDao) : ScoreLocalDataSource {
 
     override val scores: Flow<List<Score>>
         get() = scoreDao.getAll().map { scores -> scores.map { it.toScore() } }

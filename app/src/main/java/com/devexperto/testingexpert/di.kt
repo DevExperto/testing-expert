@@ -2,10 +2,10 @@ package com.devexperto.testingexpert
 
 import android.app.Application
 import androidx.room.Room
-import com.devexperto.testingexpert.data.datasource.GameDataSource
-import com.devexperto.testingexpert.data.datasource.RoomGameDataSource
+import com.devexperto.testingexpert.data.datasource.BoardLocalDataSource
+import com.devexperto.testingexpert.data.datasource.RoomBoardDataSource
 import com.devexperto.testingexpert.data.datasource.RoomScoreDataSource
-import com.devexperto.testingexpert.data.datasource.ScoreDataSource
+import com.devexperto.testingexpert.data.datasource.ScoreLocalDataSource
 import com.devexperto.testingexpert.data.db.AppDatabase
 import dagger.Binds
 import dagger.Module
@@ -28,7 +28,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGameDao(db: AppDatabase) = db.gameDao
+    fun provideBoardDao(db: AppDatabase) = db.boardDao
 
     @Provides
     @Singleton
@@ -41,9 +41,9 @@ object AppModule {
 abstract class AppDataModule {
 
     @Binds
-    abstract fun bindGameDataSource(impl: RoomGameDataSource): GameDataSource
+    abstract fun bindGameDataSource(impl: RoomBoardDataSource): BoardLocalDataSource
 
     @Binds
-    abstract fun bindScoreDataSource(impl: RoomScoreDataSource): ScoreDataSource
+    abstract fun bindScoreDataSource(impl: RoomScoreDataSource): ScoreLocalDataSource
 
 }
