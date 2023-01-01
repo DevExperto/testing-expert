@@ -6,6 +6,7 @@ import androidx.fragment.app.commit
 import com.devexperto.testingexpert.R
 import com.devexperto.testingexpert.databinding.ActivityMainBinding
 import com.devexperto.testingexpert.ui.board.BoardFragment
+import com.devexperto.testingexpert.ui.games.GamesFragment
 import com.devexperto.testingexpert.ui.scoreboard.ScoreboardFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +29,12 @@ class MainActivity : AppCompatActivity() {
                     R.id.navigation_scoreboard -> {
                         supportFragmentManager.commit {
                             replace(R.id.app_container, ScoreboardFragment())
+                        }
+                        true
+                    }
+                    R.id.navigation_other_games -> {
+                        supportFragmentManager.commit {
+                            replace(R.id.app_container, GamesFragment())
                         }
                         true
                     }

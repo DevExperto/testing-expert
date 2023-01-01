@@ -13,9 +13,9 @@
         android:title="@string/scoreboard" />
 
     <item
-        android:id="@+id/navigation_settings"
+        android:id="@+id/navigation_other_games"
         android:enabled="true"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/settings" />
+        android:icon="@drawable/ic_other_games"
+        android:title="@string/other_games" />
 
 </menu>

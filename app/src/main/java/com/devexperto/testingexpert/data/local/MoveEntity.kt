@@ -1,4 +1,4 @@
-package com.devexperto.testingexpert.data.db
+package com.devexperto.testingexpert.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

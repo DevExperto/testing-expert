@@ -1,7 +1,7 @@
 package com.devexperto.testingexpert.data.datasource
 
-import com.devexperto.testingexpert.data.db.BoardDao
-import com.devexperto.testingexpert.data.db.MoveEntity
+import com.devexperto.testingexpert.data.local.BoardDao
+import com.devexperto.testingexpert.data.local.MoveEntity
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.domain.move
 import kotlinx.coroutines.flow.Flow

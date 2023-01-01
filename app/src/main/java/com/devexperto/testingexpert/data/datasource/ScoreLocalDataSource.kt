@@ -1,7 +1,7 @@
 package com.devexperto.testingexpert.data.datasource
 
-import com.devexperto.testingexpert.data.db.ScoreDao
-import com.devexperto.testingexpert.data.db.ScoreEntity
+import com.devexperto.testingexpert.data.local.ScoreDao
+import com.devexperto.testingexpert.data.local.ScoreEntity
 import com.devexperto.testingexpert.domain.Score
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

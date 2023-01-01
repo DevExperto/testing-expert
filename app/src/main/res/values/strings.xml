@@ -6,6 +6,6 @@
     <string name="winner">Congrats! The winner is %s</string>
     <string name="game">Game</string>
     <string name="scoreboard">Scoreboard</string>
-    <string name="settings">Settings</string>
+    <string name="other_games">More Games</string>
     <string name="moves">Moves: %d</string>
 </resources>
