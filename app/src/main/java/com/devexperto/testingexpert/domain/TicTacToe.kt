@@ -3,7 +3,7 @@ package com.devexperto.testingexpert.domain
 fun TicTacToe.move(moveRow: Int, moveColumn: Int): TicTacToe {
     val newBoard = board.mapIndexed { rowIndex, row ->
         row.mapIndexed { columnIndex, cell ->
-            if (rowIndex == moveRow && columnIndex == moveColumn) currentPlayer as CellValue else cell
+            if (rowIndex == moveRow && columnIndex == moveColumn && cell == Empty) currentPlayer as CellValue else cell
         }
     }
     return TicTacToe(newBoard, nextPlayer())
