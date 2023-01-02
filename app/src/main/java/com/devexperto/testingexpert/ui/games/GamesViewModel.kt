@@ -2,8 +2,8 @@ package com.devexperto.testingexpert.ui.games
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.devexperto.testingexpert.data.GamesRepository
 import com.devexperto.testingexpert.domain.VideoGame
+import com.devexperto.testingexpert.usecases.GetPopularGamesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,7 +11,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GamesViewModel @Inject constructor(private val gamesRepository: GamesRepository) :
+class GamesViewModel @Inject constructor(
+    private val getPopularGamesUseCase: GetPopularGamesUseCase
+) :
     ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
@@ -20,7 +22,7 @@ class GamesViewModel @Inject constructor(private val gamesRepository: GamesRepos
     fun onUiReady() {
         viewModelScope.launch {
             _state.value = UiState(isLoading = true)
-            gamesRepository.games.collect {
+            getPopularGamesUseCase().collect {
                 _state.value = UiState(games = it, isLoading = false)
             }
         }

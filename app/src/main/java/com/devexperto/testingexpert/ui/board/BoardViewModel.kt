@@ -2,20 +2,25 @@ package com.devexperto.testingexpert.ui.board
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.devexperto.testingexpert.data.BoardRepository
-import com.devexperto.testingexpert.data.ScoreboardRepository
-import com.devexperto.testingexpert.domain.*
+import com.devexperto.testingexpert.domain.GameState
+import com.devexperto.testingexpert.domain.TicTacToe
+import com.devexperto.testingexpert.domain.findWinner
+import com.devexperto.testingexpert.usecases.AddScoreUseCase
+import com.devexperto.testingexpert.usecases.GetCurrentBoardUseCase
+import com.devexperto.testingexpert.usecases.MakeBoardMoveUseCase
+import com.devexperto.testingexpert.usecases.ResetBoardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class BoardViewModel @Inject constructor(
-    private val boardRepository: BoardRepository,
-    private val scoreboardRepository: ScoreboardRepository
+    private val makeBoardMoveUseCase: MakeBoardMoveUseCase,
+    private val getCurrentBoardUseCase: GetCurrentBoardUseCase,
+    private val addScoreUseCase: AddScoreUseCase,
+    private val resetBoardUseCase: ResetBoardUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
@@ -23,19 +28,13 @@ class BoardViewModel @Inject constructor(
 
     fun startGame() {
         viewModelScope.launch {
-            boardRepository.board.collect { board ->
+            getCurrentBoardUseCase().collect { board ->
                 _state.value = UiState(
                     ticTacToe = board,
                     gameState = when (val winner = board.findWinner()) {
                         null -> GameState.InProgress
                         else -> {
-                            scoreboardRepository.addScore(
-                                Score(
-                                    winner,
-                                    board.numberOfMoves(),
-                                    Date()
-                                )
-                            )
+                            addScoreUseCase(board)
                             GameState.Finished(winner)
                         }
                     }
@@ -46,13 +45,13 @@ class BoardViewModel @Inject constructor(
 
     fun move(row: Int, column: Int) {
         viewModelScope.launch {
-            boardRepository.move(row, column)
+            makeBoardMoveUseCase(row, column)
         }
     }
 
     fun resetGame() {
         viewModelScope.launch {
-            boardRepository.reset()
+            resetBoardUseCase()
             startGame()
         }
     }
