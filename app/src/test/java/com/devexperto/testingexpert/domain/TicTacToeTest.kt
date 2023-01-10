@@ -1,6 +1,5 @@
-package com.devexperto.testingexpert
+package com.devexperto.testingexpert.domain
 
-import com.devexperto.testingexpert.domain.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

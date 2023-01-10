@@ -58,8 +58,11 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.14.2'
 
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:4.1.0'
+    testImplementation 'org.mockito:mockito-inline:4.9.0'
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
 // Allow references to generated code
