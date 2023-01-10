@@ -2,12 +2,12 @@ package com.devexperto.testingexpert.data
 
 import com.devexperto.testingexpert.data.datasource.GamesRemoteDataSource
 import com.devexperto.testingexpert.domain.VideoGame
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
 import java.util.*
 
 class GamesRepositoryTest {
@@ -17,8 +17,8 @@ class GamesRepositoryTest {
         val expectedGames =
             listOf(VideoGame(1, "Game 1", 1.0, "https://image.com/1", Date()))
 
-        val gamesRemoteDataSource: GamesRemoteDataSource = mock {
-            onBlocking { getGames() } doReturn expectedGames
+        val gamesRemoteDataSource: GamesRemoteDataSource = mockk {
+            coEvery { getGames() } returns expectedGames
         }
         val gamesRepository = GamesRepository(gamesRemoteDataSource)
 

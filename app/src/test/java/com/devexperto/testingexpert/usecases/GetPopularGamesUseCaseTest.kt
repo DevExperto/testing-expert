@@ -3,12 +3,12 @@ package com.devexperto.testingexpert.usecases
 import com.devexperto.testingexpert.data.GamesRepository
 import com.devexperto.testingexpert.domain.VideoGame
 import kotlinx.coroutines.flow.first
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
 import java.util.*
 
 class GetPopularGamesUseCaseTest {
@@ -16,8 +16,8 @@ class GetPopularGamesUseCaseTest {
     @Test
     fun `when invoke is called, then return games from repository`() {
         val expectedGames = listOf(VideoGame(1, "Game 1", 1.0, "url", Date()))
-        val repository = mock<GamesRepository>() {
-            onBlocking { games } doReturn flowOf(expectedGames)
+        val repository: GamesRepository = mockk() {
+            every { games } returns flowOf(expectedGames)
         }
         val useCase = GetPopularGamesUseCase(repository)
 

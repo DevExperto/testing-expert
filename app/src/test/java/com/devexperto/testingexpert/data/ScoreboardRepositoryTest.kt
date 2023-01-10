@@ -3,23 +3,26 @@ package com.devexperto.testingexpert.data
 import com.devexperto.testingexpert.data.datasource.ScoreLocalDataSource
 import com.devexperto.testingexpert.domain.Score
 import com.devexperto.testingexpert.domain.X
+import io.mockk.coJustRun
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.verifyBlocking
-import org.mockito.kotlin.whenever
 import java.util.*
 
-@RunWith(MockitoJUnitRunner::class)
 class ScoreboardRepositoryTest {
 
-    @Mock
+    @get:Rule
+    val mockkRule = MockKRule(this)
+
+    @MockK
     lateinit var localDataSource: ScoreLocalDataSource
 
     private lateinit var repository: ScoreboardRepository
@@ -28,7 +31,8 @@ class ScoreboardRepositoryTest {
 
     @Before
     fun setUp() {
-        whenever(localDataSource.scores).thenReturn(flowOf(expectedScores))
+        every { localDataSource.scores } returns flowOf(expectedScores)
+        coJustRun { localDataSource.addScore(any()) }
         repository = ScoreboardRepository(localDataSource)
     }
 
@@ -39,7 +43,7 @@ class ScoreboardRepositoryTest {
 
         runBlocking { repository.addScore(score) }
 
-        verifyBlocking(localDataSource) { addScore(score) }
+        coVerify { localDataSource.addScore(score) }
     }
 
     @Test

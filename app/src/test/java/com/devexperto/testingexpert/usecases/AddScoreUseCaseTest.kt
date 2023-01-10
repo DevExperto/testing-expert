@@ -5,12 +5,12 @@ import com.devexperto.testingexpert.domain.Score
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.domain.X
 import com.devexperto.testingexpert.domain.move
+import io.mockk.coJustRun
+import io.mockk.mockk
+import io.mockk.slot
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.kotlin.argumentCaptor
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.verifyBlocking
 import java.time.temporal.ChronoUnit
 import java.util.*
 
@@ -25,18 +25,21 @@ class AddScoreUseCaseTest {
             .move(1, 1)
             .move(0, 2)
 
-        val repository: ScoreboardRepository = mock()
+        val slot = slot<Score>()
+
+        val repository: ScoreboardRepository = mockk {
+            coJustRun { addScore(capture(slot)) }
+        }
         val useCase = AddScoreUseCase(repository)
 
         runBlocking { useCase.invoke(boardWithWinnerX) }
 
-        argumentCaptor<Score>().apply {
-            verifyBlocking(repository) { addScore(capture()) }
-            assertEquals(X, firstValue.winner)
-            assertEquals(5, firstValue.numberOfMoves)
+        slot.captured.apply {
+            assertEquals(X, winner)
+            assertEquals(5, numberOfMoves)
             assertEquals(
                 Date().toInstant().truncatedTo(ChronoUnit.MINUTES),
-                firstValue.date.toInstant().truncatedTo(ChronoUnit.MINUTES)
+                date.toInstant().truncatedTo(ChronoUnit.MINUTES)
             )
         }
 
