@@ -1,8 +1,10 @@
 package com.devexperto.testingexpert.ui.board
 
+import app.cash.turbine.test
 import com.devexperto.testingexpert.domain.GameState
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.testrules.CoroutinesTestRule
+import com.devexperto.testingexpert.ui.board.BoardViewModel.UiState
 import com.devexperto.testingexpert.usecases.AddScoreUseCase
 import com.devexperto.testingexpert.usecases.GetCurrentBoardUseCase
 import com.devexperto.testingexpert.usecases.MakeBoardMoveUseCase
@@ -58,16 +60,19 @@ class BoardViewModelTest {
 
     @Test
     fun `at the beginning, the game is not started`() = runTest {
-        assertEquals(GameState.NotStarted, viewModel.state.value.gameState)
+        viewModel.state.test {
+            assertEquals(UiState(gameState = GameState.NotStarted), awaitItem())
+        }
     }
 
     @Test
     fun `when start game is called, game state is in progress`() = runTest {
-        viewModel.startGame()
+        viewModel.state.test {
+            assertEquals(UiState(gameState = GameState.NotStarted), awaitItem())
 
-        runCurrent()
-
-        assertEquals(GameState.InProgress, viewModel.state.value.gameState)
+            viewModel.startGame()
+            assertEquals(UiState(gameState = GameState.InProgress), awaitItem())
+        }
     }
 
     @Test

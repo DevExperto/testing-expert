@@ -1,14 +1,13 @@
 package com.devexperto.testingexpert.ui.games
 
+import app.cash.turbine.test
 import com.devexperto.testingexpert.domain.VideoGame
 import com.devexperto.testingexpert.testrules.CoroutinesTestRule
 import com.devexperto.testingexpert.usecases.GetPopularGamesUseCase
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -25,19 +24,17 @@ class GamesViewModelTest {
     fun `when view model is created, then call get games`() = runTest {
         val expectedGames = listOf(VideoGame(1, "name", 1.0, "image", Date()))
         val getPopularGamesUseCase: GetPopularGamesUseCase = mockk()
-        every { getPopularGamesUseCase() } returns flow {
-            delay(3000)
-            emit(expectedGames)
-        }
+        every { getPopularGamesUseCase() } returns flowOf(expectedGames)
         val viewModel = GamesViewModel(getPopularGamesUseCase)
 
-        viewModel.onUiReady()
+        viewModel.state.test {
+            assertEquals(GamesViewModel.UiState(), awaitItem())
 
-        advanceTimeBy(50)
-        assertEquals(GamesViewModel.UiState(isLoading = true), viewModel.state.value)
+            viewModel.onUiReady()
+            assertEquals(GamesViewModel.UiState(isLoading = true), awaitItem())
+            assertEquals(GamesViewModel.UiState(games = expectedGames), awaitItem())
+        }
 
-        advanceTimeBy(3000)
-        assertEquals(expectedGames, viewModel.state.value.games)
     }
 
 }
