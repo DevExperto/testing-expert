@@ -8,5 +8,5 @@ import javax.inject.Inject
 
 class GamesRepository @Inject constructor(private val gamesRemoteDataSource: GamesRemoteDataSource) {
 
-    val games: Flow<List<VideoGame>> = flow { emit(gamesRemoteDataSource.getGames()) }
+    val games: Flow<List<VideoGame>> get() = flow { emit(gamesRemoteDataSource.getGames()) }
 }
