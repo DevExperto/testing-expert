@@ -27,14 +27,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(app: Application) = Room.databaseBuilder(
-        app,
-        AppDatabase::class.java,
-        "app-db"
-    ).build()
-
-    @Provides
-    @Singleton
     fun provideBoardDao(db: AppDatabase) = db.boardDao
 
     @Provides
@@ -69,6 +61,20 @@ object AppModule {
             .build()
             .create()
     }
+
+}
+
+@InstallIn(SingletonComponent::class)
+@Module
+object AppExtrasModule {
+
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application) = Room.databaseBuilder(
+        app,
+        AppDatabase::class.java,
+        "app-db"
+    ).build()
 
 }
 
