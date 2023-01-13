@@ -35,11 +35,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    @ApiUrl
-    fun provideApiUrl(): String = "https://api.rawg.io/api/"
-
-    @Provides
-    @Singleton
     @ApiKey
     fun provideApiKey(app: Application): String = app.getString(R.string.api_key)
 
@@ -75,6 +70,11 @@ object AppExtrasModule {
         AppDatabase::class.java,
         "app-db"
     ).build()
+
+    @Provides
+    @Singleton
+    @ApiUrl
+    fun provideApiUrl(): String = "https://api.rawg.io/api/"
 
 }
 

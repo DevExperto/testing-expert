@@ -1,0 +1,10 @@
+<!-- This is unmodified by default. We'll override it for tests
+
+If you want to use https, skip this configuration and follow this article:
+https://adambennett.dev/2021/09/mockwebserver%2D%2Dhttps/ -->
+
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+    </domain-config>
+</network-security-config>
