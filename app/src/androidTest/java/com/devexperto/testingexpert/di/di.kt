@@ -22,6 +22,7 @@ import javax.inject.Singleton
 @Module
 object TestAppExtrasModule {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Provides
     @Singleton
     fun provideDatabase(app: Application) = Room.inMemoryDatabaseBuilder(

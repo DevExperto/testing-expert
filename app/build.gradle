@@ -73,6 +73,7 @@ dependencies {
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
     //noinspection GradleDependency
     androidTestImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
+    androidTestImplementation 'app.cash.turbine:turbine:0.12.1'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44.2'
 }
 
