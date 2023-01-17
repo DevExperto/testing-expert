@@ -1,10 +1,12 @@
 package com.devexperto.testingexpert.ui.board
 
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.devexperto.testingexpert.data.remote.MockWebServerRule
 import com.devexperto.testingexpert.domain.GameState
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.domain.move
+import com.devexperto.testingexpert.idlingresources.OkHttp3IdlingResource
 import com.devexperto.testingexpert.testrules.CoroutinesTestRule
 import com.devexperto.testingexpert.ui.board.BoardViewModel.UiState
 import com.devexperto.testingexpert.usecases.AddScoreUseCase
@@ -16,6 +18,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
+import okhttp3.OkHttpClient
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -38,6 +41,9 @@ class BoardViewModelIntTest {
     val coroutinesTestRule = CoroutinesTestRule()
 
     @Inject
+    lateinit var okHttpClient: OkHttpClient
+
+    @Inject
     lateinit var makeBoardMoveUseCase: MakeBoardMoveUseCase
 
     @Inject
@@ -54,6 +60,10 @@ class BoardViewModelIntTest {
     @Before
     fun setUp() {
         hiltRule.inject()
+
+        val resource = OkHttp3IdlingResource.create("OkHttp", okHttpClient)
+        IdlingRegistry.getInstance().register(resource)
+
         viewModel = BoardViewModel(
             makeBoardMoveUseCase,
             getCurrentBoardUseCase,
