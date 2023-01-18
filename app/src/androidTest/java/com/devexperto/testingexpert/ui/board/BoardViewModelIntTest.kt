@@ -1,27 +1,21 @@
 package com.devexperto.testingexpert.ui.board
 
-import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.devexperto.testingexpert.data.remote.MockWebServerRule
 import com.devexperto.testingexpert.domain.GameState
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.domain.move
-import com.devexperto.testingexpert.idlingresources.OkHttp3IdlingResource
-import com.devexperto.testingexpert.testrules.CoroutinesTestRule
+import com.devexperto.testingexpert.ui.InstrumentedIntegrationTest
 import com.devexperto.testingexpert.ui.board.BoardViewModel.UiState
 import com.devexperto.testingexpert.usecases.AddScoreUseCase
 import com.devexperto.testingexpert.usecases.GetCurrentBoardUseCase
 import com.devexperto.testingexpert.usecases.MakeBoardMoveUseCase
 import com.devexperto.testingexpert.usecases.ResetBoardUseCase
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
-import okhttp3.OkHttpClient
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
@@ -29,19 +23,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class BoardViewModelIntTest {
-
-    @get:Rule(order = 0)
-    val hiltRule = HiltAndroidRule(this)
-
-    @get:Rule(order = 1)
-    val mockWebServerRule = MockWebServerRule()
-
-    @get:Rule(order = 2)
-    val coroutinesTestRule = CoroutinesTestRule()
-
-    @Inject
-    lateinit var okHttpClient: OkHttpClient
+class BoardViewModelIntTest : InstrumentedIntegrationTest() {
 
     @Inject
     lateinit var makeBoardMoveUseCase: MakeBoardMoveUseCase
@@ -59,11 +41,6 @@ class BoardViewModelIntTest {
 
     @Before
     fun setUp() {
-        hiltRule.inject()
-
-        val resource = OkHttp3IdlingResource.create("OkHttp", okHttpClient)
-        IdlingRegistry.getInstance().register(resource)
-
         viewModel = BoardViewModel(
             makeBoardMoveUseCase,
             getCurrentBoardUseCase,
