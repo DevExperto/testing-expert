@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.devexperto.testingexpert.domain.GameState
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.domain.findWinner
+import com.devexperto.testingexpert.domain.isEmpty
 import com.devexperto.testingexpert.usecases.AddScoreUseCase
 import com.devexperto.testingexpert.usecases.GetCurrentBoardUseCase
 import com.devexperto.testingexpert.usecases.MakeBoardMoveUseCase
@@ -12,6 +13,7 @@ import com.devexperto.testingexpert.usecases.ResetBoardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,21 +28,29 @@ class BoardViewModel @Inject constructor(
     private val _state = MutableStateFlow(UiState())
     val state = _state.asStateFlow()
 
-    fun startGame() {
+    private var userStartedGame = false
+
+    init {
         viewModelScope.launch {
             getCurrentBoardUseCase().collect { board ->
                 _state.value = UiState(
                     ticTacToe = board,
-                    gameState = when (val winner = board.findWinner()) {
-                        null -> GameState.InProgress
-                        else -> {
+                    gameState = when {
+                        board.findWinner() != null -> {
                             addScoreUseCase(board)
-                            GameState.Finished(winner)
+                            GameState.Finished(board.findWinner()!!)
                         }
+                        board.isEmpty() && !userStartedGame -> GameState.NotStarted
+                        else -> GameState.InProgress
                     }
                 )
             }
         }
+    }
+
+    fun startGame() {
+        userStartedGame = true
+        _state.update { it.copy(gameState = GameState.InProgress) }
     }
 
     fun move(row: Int, column: Int) {
