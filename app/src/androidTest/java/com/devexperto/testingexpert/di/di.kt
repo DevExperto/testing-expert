@@ -8,13 +8,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
-import kotlinx.coroutines.test.StandardTestDispatcher
 import javax.inject.Singleton
 
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @TestInstallIn(
     components = [SingletonComponent::class],
     replaces = [AppExtrasModule::class]
@@ -22,14 +20,14 @@ import javax.inject.Singleton
 @Module
 object TestAppExtrasModule {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Provides
     @Singleton
     fun provideDatabase(app: Application) = Room.inMemoryDatabaseBuilder(
         app,
         AppDatabase::class.java
     )
-        .setTransactionExecutor(StandardTestDispatcher().asExecutor())
+        .setTransactionExecutor(Dispatchers.Main.asExecutor())
+        .allowMainThreadQueries()
         .build()
 
     @Provides
