@@ -4,6 +4,7 @@
     <string name="play_again">Play Again</string>
     <string name="welcome">Welcome to TicTacToe!</string>
     <string name="winner">Congrats! The winner is %s</string>
+    <string name="draw">It\'s a draw!</string>
     <string name="game">Game</string>
     <string name="scoreboard">Scoreboard</string>
     <string name="other_games">More Games</string>

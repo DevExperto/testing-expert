@@ -9,8 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.devexperto.testingexpert.R
 import com.devexperto.testingexpert.databinding.FragmentBoardBinding
-import com.devexperto.testingexpert.domain.GameState
-import com.devexperto.testingexpert.domain.Winner
+import com.devexperto.testingexpert.domain.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -62,7 +61,10 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
     private fun FragmentBoardBinding.bindFinished(winner: Winner) {
         boardView.visibility = View.GONE
 
-        message.text = getString(R.string.winner, winner.toString())
+        message.text = when (winner) {
+            X, O -> getString(R.string.winner, winner.toString())
+            Draw -> getString(R.string.draw)
+        }
         message.visibility = View.VISIBLE
 
         startBtn.text = getString(R.string.play_again)
