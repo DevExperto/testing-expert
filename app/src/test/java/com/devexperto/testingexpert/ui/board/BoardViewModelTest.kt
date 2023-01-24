@@ -5,7 +5,6 @@ import com.devexperto.testingexpert.domain.GameState
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.testrules.CoroutinesTestRule
 import com.devexperto.testingexpert.ui.board.BoardViewModel.UiState
-import com.devexperto.testingexpert.usecases.AddScoreUseCase
 import com.devexperto.testingexpert.usecases.GetCurrentBoardUseCase
 import com.devexperto.testingexpert.usecases.MakeBoardMoveUseCase
 import com.devexperto.testingexpert.usecases.ResetBoardUseCase
@@ -40,9 +39,6 @@ class BoardViewModelTest {
     lateinit var getCurrentBoardUseCase: GetCurrentBoardUseCase
 
     @MockK
-    lateinit var addScoreUseCase: AddScoreUseCase
-
-    @MockK
     lateinit var resetBoardUseCase: ResetBoardUseCase
 
     lateinit var viewModel: BoardViewModel
@@ -53,7 +49,6 @@ class BoardViewModelTest {
         viewModel = BoardViewModel(
             makeBoardMoveUseCase,
             getCurrentBoardUseCase,
-            addScoreUseCase,
             resetBoardUseCase
         )
     }

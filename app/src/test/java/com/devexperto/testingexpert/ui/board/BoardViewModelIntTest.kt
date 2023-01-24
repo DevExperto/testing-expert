@@ -27,7 +27,7 @@ class BoardViewModelIntTest {
     @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
 
-    lateinit var viewModel: BoardViewModel
+    private lateinit var viewModel: BoardViewModel
 
     @Before
     fun setUp() {
@@ -36,9 +36,8 @@ class BoardViewModelIntTest {
         val scoreboardRepository = ScoreboardRepository(ScoreLocalDataSourceFake())
 
         viewModel = BoardViewModel(
-            MakeBoardMoveUseCase(boardRepository),
+            MakeBoardMoveUseCase(boardRepository, AddScoreUseCase(scoreboardRepository)),
             GetCurrentBoardUseCase(boardRepository),
-            AddScoreUseCase(scoreboardRepository),
             ResetBoardUseCase(boardRepository)
         )
     }

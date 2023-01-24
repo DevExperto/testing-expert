@@ -71,6 +71,31 @@ class BoardUiTest : InstrumentedTest() {
         onView(withText(R.string.draw)).check(matches(isDisplayed()))
     }
 
+    @Test
+    fun whenGameEndsAndMovesToScoreBoardBackAndForth_scoreShouldntBeDuplicated() {
+        onView(withId(R.id.start_btn)).perform(click())
+        playFullGameWinsX()
+
+        onView(withId(R.id.navigation_scoreboard)).perform(click())
+
+        // Check that the list has only 1 item
+        onView(withId(R.id.score)).check(matches(hasChildCount(1)))
+
+        onView(withId(R.id.navigation_board)).perform(click())
+        onView(withId(R.id.navigation_scoreboard)).perform(click())
+
+        // Check that the list still has 1 item
+        onView(withId(R.id.score)).check(matches(hasChildCount(1)))
+    }
+
+    private fun playFullGameWinsX() {
+        onView(withId(R.id.btn_0_0)).perform(click())
+        onView(withId(R.id.btn_0_1)).perform(click())
+        onView(withId(R.id.btn_1_1)).perform(click())
+        onView(withId(R.id.btn_1_2)).perform(click())
+        onView(withId(R.id.btn_2_2)).perform(click())
+    }
+
     private fun playFullGameInDraw() {
         onView(withId(R.id.btn_0_0)).perform(click())
         onView(withId(R.id.btn_0_1)).perform(click())

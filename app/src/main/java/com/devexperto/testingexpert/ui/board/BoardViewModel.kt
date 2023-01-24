@@ -6,7 +6,6 @@ import com.devexperto.testingexpert.domain.GameState
 import com.devexperto.testingexpert.domain.TicTacToe
 import com.devexperto.testingexpert.domain.findWinner
 import com.devexperto.testingexpert.domain.isEmpty
-import com.devexperto.testingexpert.usecases.AddScoreUseCase
 import com.devexperto.testingexpert.usecases.GetCurrentBoardUseCase
 import com.devexperto.testingexpert.usecases.MakeBoardMoveUseCase
 import com.devexperto.testingexpert.usecases.ResetBoardUseCase
@@ -21,7 +20,6 @@ import javax.inject.Inject
 class BoardViewModel @Inject constructor(
     private val makeBoardMoveUseCase: MakeBoardMoveUseCase,
     private val getCurrentBoardUseCase: GetCurrentBoardUseCase,
-    private val addScoreUseCase: AddScoreUseCase,
     private val resetBoardUseCase: ResetBoardUseCase
 ) : ViewModel() {
 
@@ -37,7 +35,6 @@ class BoardViewModel @Inject constructor(
                     ticTacToe = board,
                     gameState = when {
                         board.findWinner() != null -> {
-                            addScoreUseCase(board)
                             GameState.Finished(board.findWinner()!!)
                         }
                         board.isEmpty() && !userStartedGame -> GameState.NotStarted
