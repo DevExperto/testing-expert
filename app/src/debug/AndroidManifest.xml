@@ -5,6 +5,12 @@
     <application
         android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="MissingApplicationIcon,UnusedAttribute"
-        tools:node="merge" />
+        tools:node="merge" >
+
+        <activity
+            android:name=".HiltTestActivity"
+            android:exported="false"  />
+
+    </application>
 
 </manifest>
