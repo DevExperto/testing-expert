@@ -1,6 +1,7 @@
 package com.devexperto.testingexpert.di
 
 import android.app.Application
+import androidx.compose.runtime.NoLiveLiterals
 import androidx.room.Room
 import com.devexperto.architectcoders.di.ApiUrl
 import com.devexperto.testingexpert.data.local.AppDatabase
@@ -12,6 +13,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import javax.inject.Singleton
 
+/* This annotation is here because a bug when running tests with Hilt and Compose.
+ * See https://stackoverflow.com/a/71189923 */
+@NoLiveLiterals
 
 @TestInstallIn(
     components = [SingletonComponent::class],
