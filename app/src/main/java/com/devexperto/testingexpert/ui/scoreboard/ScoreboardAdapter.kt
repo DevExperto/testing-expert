@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.devexperto.testingexpert.R
 import com.devexperto.testingexpert.databinding.ItemScoreBinding
 import com.devexperto.testingexpert.domain.Score
-import java.text.SimpleDateFormat
-import java.util.*
+import com.devexperto.testingexpert.ui.formatToString
 
 class ScoreboardAdapter : ListAdapter<Score, ScoreViewHolder>(ScoreDiffCallback) {
 
@@ -34,11 +33,6 @@ class ScoreViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.date.text = score.date.formatToString()
     }
 }
-
-private fun Date.formatToString(): CharSequence =
-    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).run {
-        format(this@formatToString)
-    }
 
 private object ScoreDiffCallback : DiffUtil.ItemCallback<Score>() {
 
