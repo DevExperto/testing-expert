@@ -11,12 +11,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.devexperto.testingexpert.R
 import com.devexperto.testingexpert.domain.*
 import com.devexperto.testingexpert.ui.board.BoardViewModel
+
+const val BOARD_TEST_TAG = "board"
 
 @Composable
 fun Board(vm: BoardViewModel = hiltViewModel()) {
@@ -65,9 +68,13 @@ fun NotStarted(onStartClick: () -> Unit) {
     }
 }
 
+const val CELL_TEST_TAG = "cell"
+
 @Composable
 fun InProgress(ticTacToe: TicTacToe, onMove: (Int, Int) -> Unit) {
-    Column {
+    Column(
+        modifier = Modifier.testTag(BOARD_TEST_TAG)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -79,7 +86,8 @@ fun InProgress(ticTacToe: TicTacToe, onMove: (Int, Int) -> Unit) {
                     row.forEachIndexed { columnIndex, cell ->
                         Cell(
                             cell = cell,
-                            onClick = { onMove(rowIndex, columnIndex) }
+                            onClick = { onMove(rowIndex, columnIndex) },
+                            modifier = Modifier.testTag(CELL_TEST_TAG + rowIndex + columnIndex)
                         )
                     }
                 }
@@ -89,9 +97,9 @@ fun InProgress(ticTacToe: TicTacToe, onMove: (Int, Int) -> Unit) {
 }
 
 @Composable
-fun RowScope.Cell(cell: CellValue, onClick: () -> Unit) {
+fun RowScope.Cell(cell: CellValue, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .clickable(onClick = onClick, enabled = cell == Empty)
             .border(1.dp, color = MaterialTheme.colors.onBackground)
             .weight(1f)
