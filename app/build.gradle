@@ -17,6 +17,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "com.devexperto.testingexpert.di.HiltTestRunner"
+        testInstrumentationRunnerArguments useTestStorageService: 'true'
+
         vectorDrawables {
             useSupportLibrary true
         }
@@ -113,6 +115,8 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+
+    androidTestUtil "androidx.test.services:test-services:1.4.2"
 }
 
 // Allow references to generated code
