@@ -6,7 +6,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.devexperto.testingexpert.R
-import com.devexperto.testingexpert.composeui.ctx
+import com.devexperto.testingexpert.composeui.targetCtx
 import com.devexperto.testingexpert.composeui.onNodeWithText
 import com.devexperto.testingexpert.domain.GameState
 import com.devexperto.testingexpert.domain.TicTacToe
@@ -97,7 +97,7 @@ class BoardUnitTest {
         buildBoard(state = BoardViewModel.UiState(gameState = GameState.Finished(X)))
 
         onNodeWithText(
-            ctx.getString(R.string.winner, X.toString()),
+            targetCtx.getString(R.string.winner, X.toString()),
             ignoreCase = true
         ).assertExists()
     }
