@@ -32,6 +32,6 @@ class BoardScreenshotTest : InstrumentedTest() {
 
     @Test
     fun compareStartScreen(): Unit = with(activityRule) {
-        onRoot().assertMatchesGolden("screenshots/AndroidComposeTestRule_screenshotTest.png")
+        onRoot().assertMatchesGolden("screenshots/BoardScreenshotTest_saveStartScreenToBitmap.png")
     }
 }
