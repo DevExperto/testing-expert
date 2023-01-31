@@ -4,7 +4,7 @@ import com.devexperto.testingexpert.data.BoardRepository
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class ResetBoardUseCaseTest {
 

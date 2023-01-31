@@ -5,22 +5,20 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
-
+import org.junit.jupiter.api.extension.AfterEachCallback
+import org.junit.jupiter.api.extension.BeforeEachCallback
+import org.junit.jupiter.api.extension.ExtensionContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class CoroutinesTestRule : TestWatcher() {
+class CoroutinesExtension: BeforeEachCallback, AfterEachCallback {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    override fun starting(description: Description) {
-        super.starting(description)
+    override fun beforeEach(context: ExtensionContext?) {
         Dispatchers.setMain(testDispatcher)
     }
 
-    override fun finished(description: Description) {
-        super.finished(description)
+    override fun afterEach(context: ExtensionContext?) {
         Dispatchers.resetMain()
     }
 }

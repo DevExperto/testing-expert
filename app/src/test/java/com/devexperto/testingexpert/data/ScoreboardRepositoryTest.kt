@@ -7,20 +7,18 @@ import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit4.MockKRule
+import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import java.util.*
 
+@ExtendWith(MockKExtension::class)
 class ScoreboardRepositoryTest {
-
-    @get:Rule
-    val mockkRule = MockKRule(this)
 
     @MockK
     lateinit var localDataSource: ScoreLocalDataSource
@@ -29,13 +27,12 @@ class ScoreboardRepositoryTest {
 
     private val expectedScores = listOf(Score(X, 3, Date()))
 
-    @Before
+    @BeforeEach
     fun setUp() {
         every { localDataSource.scores } returns flowOf(expectedScores)
         coJustRun { localDataSource.addScore(any()) }
         repository = ScoreboardRepository(localDataSource)
     }
-
 
     @Test
     fun `when a score is added, it is added to the local data source`() {

@@ -3,13 +3,13 @@ package com.devexperto.testingexpert.usecases
 import com.devexperto.testingexpert.data.ScoreboardRepository
 import com.devexperto.testingexpert.domain.Score
 import com.devexperto.testingexpert.domain.X
-import kotlinx.coroutines.flow.first
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import java.util.*
 
 class GetAllScoresUseCaseTest {

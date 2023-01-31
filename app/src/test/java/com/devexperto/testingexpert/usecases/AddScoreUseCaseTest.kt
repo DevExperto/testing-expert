@@ -9,8 +9,8 @@ import io.mockk.coJustRun
 import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import java.time.temporal.ChronoUnit
 import java.util.*
 

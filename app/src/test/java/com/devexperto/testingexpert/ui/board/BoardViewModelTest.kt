@@ -3,7 +3,7 @@ package com.devexperto.testingexpert.ui.board
 import app.cash.turbine.test
 import com.devexperto.testingexpert.domain.GameState
 import com.devexperto.testingexpert.domain.TicTacToe
-import com.devexperto.testingexpert.testrules.CoroutinesTestRule
+import com.devexperto.testingexpert.testrules.CoroutinesExtension
 import com.devexperto.testingexpert.ui.board.BoardViewModel.UiState
 import com.devexperto.testingexpert.usecases.AddScoreUseCase
 import com.devexperto.testingexpert.usecases.GetCurrentBoardUseCase
@@ -13,25 +13,20 @@ import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit4.MockKRule
+import io.mockk.junit5.MockKExtension
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @OptIn(ExperimentalCoroutinesApi::class)
+@ExtendWith(CoroutinesExtension::class, MockKExtension::class)
 class BoardViewModelTest {
-
-    @get:Rule
-    val coroutinesTestRule = CoroutinesTestRule()
-
-    @get:Rule
-    val mockkRule = MockKRule(this)
 
     @MockK
     lateinit var makeBoardMoveUseCase: MakeBoardMoveUseCase
@@ -47,7 +42,7 @@ class BoardViewModelTest {
 
     lateinit var viewModel: BoardViewModel
 
-    @Before
+    @BeforeEach
     fun setUp() {
         every { getCurrentBoardUseCase() } returns flowOf(TicTacToe())
         viewModel = BoardViewModel(
