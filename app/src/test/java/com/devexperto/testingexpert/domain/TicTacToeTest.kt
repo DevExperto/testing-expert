@@ -3,6 +3,9 @@ package com.devexperto.testingexpert.domain
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 
 class TicTacToeTest {
@@ -14,103 +17,85 @@ class TicTacToeTest {
         assertTrue(ticTacToe.board.flatten().all { it == Empty })
     }
 
-    @Test
-    fun `the first player is X`() {
-        val ticTacToe = TicTacToe()
-            .move(0, 0)
+    @ParameterizedTest
+    @MethodSource
+    fun `Given a number of moves, check value in latest cell`(
+        moves: List<Pair<Int, Int>>,
+        expectedValue: CellValue
+    ) {
+        val ticTacToe = moves.toTicTacToe()
 
-        assertEquals(X, ticTacToe.board[0][0])
+        moves.last().let { (row, column) ->
+            assertEquals(expectedValue, ticTacToe.board[row][column])
+        }
     }
 
-    @Test
-    fun `the second player is O`() {
-        val ticTacToe = TicTacToe()
-            .move(0, 0)
-            .move(0, 1)
+    @ParameterizedTest
+    @MethodSource
+    fun `Given a number of moves, check winner`(
+        moves: List<Pair<Int, Int>>,
+        winner: Winner?
+    ) {
+        val ticTacToe = moves.toTicTacToe()
 
-        assertEquals(X, ticTacToe.board[0][0])
-        assertEquals(O, ticTacToe.board[0][1])
+        assertEquals(winner, ticTacToe.findWinner())
     }
 
-    @Test
-    fun `an occupied cell cannot be played`() {
-        val ticTacToe = TicTacToe()
-            .move(0, 0)
-            .move(0, 0)
+    companion object {
+        @JvmStatic
+        fun `Given a number of moves, check value in latest cell`(): List<Arguments> {
+            return listOf(
+                // Previous tests
+                Arguments.of(listOf(0 to 0), X),
+                Arguments.of(listOf(0 to 0, 0 to 1), O),
+                Arguments.of(listOf(0 to 0, 0 to 0), X),
 
-        assertEquals(X, ticTacToe.board[0][0])
+                // New tests
+                Arguments.of(listOf(0 to 0, 1 to 0, 0 to 1, 1 to 1, 0 to 2), X),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 0, 1 to 1, 2 to 0), X),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 1, 1 to 0, 2 to 2), X),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 2, 1 to 1, 0 to 2, 2 to 1), O),
+                Arguments.of(listOf(0 to 0, 0 to 1), O),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 2), X),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 2, 1 to 1), O),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 2, 1 to 1, 2 to 0), X),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 2, 1 to 1, 2 to 0, 2 to 1), O),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 2, 1 to 1, 2 to 0, 2 to 1, 0 to 2), X),
+                Arguments.of(
+                    listOf(0 to 0, 0 to 1, 1 to 2, 1 to 1, 2 to 0, 2 to 1, 0 to 2, 1 to 0),
+                    O
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun `Given a number of moves, check winner`(): List<Arguments> {
+            return listOf(
+                Arguments.of(listOf(0 to 0, 1 to 0, 0 to 1, 1 to 1, 0 to 2), X),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 0, 1 to 1, 2 to 0), X),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 1, 1 to 0, 2 to 2), X),
+                Arguments.of(
+                    listOf(
+                        0 to 0,
+                        0 to 1,
+                        0 to 2,
+                        1 to 2,
+                        1 to 0,
+                        2 to 0,
+                        1 to 1,
+                        2 to 2,
+                        2 to 1
+                    ), Draw
+                ),
+                Arguments.of(listOf(0 to 0, 0 to 1, 1 to 2, 1 to 1, 0 to 2, 2 to 1), O),
+                Arguments.of(listOf(0 to 0), null),
+            )
+        }
     }
+}
 
-    @Test
-    fun `the game ends when all cells in a row are taken by a player`() {
-        val ticTacToe = TicTacToe()
-            .move(0, 0)
-            .move(1, 0)
-            .move(0, 1)
-            .move(1, 1)
-            .move(0, 2)
-
-        assertEquals(X, ticTacToe.findWinner())
-    }
-
-    @Test
-    fun `the game ends when all cells in a column are taken by a player`() {
-        val ticTacToe = TicTacToe()
-            .move(0, 0)
-            .move(0, 1)
-            .move(1, 0)
-            .move(1, 1)
-            .move(2, 0)
-
-        assertEquals(X, ticTacToe.findWinner())
-    }
-
-    @Test
-    fun `the game ends when all cells in a diagonal are taken by a player`() {
-        val ticTacToe = TicTacToe()
-            .move(0, 0)
-            .move(0, 1)
-            .move(1, 1)
-            .move(1, 0)
-            .move(2, 2)
-
-        assertEquals(X, ticTacToe.findWinner())
-    }
-
-    @Test
-    fun `the game ends when all cells are taken`() {
-        val ticTacToe = TicTacToe()
-            .move(0, 0)
-            .move(0, 1)
-            .move(0, 2)
-            .move(1, 2)
-            .move(1, 0)
-            .move(2, 0)
-            .move(1, 1)
-            .move(2, 2)
-            .move(2, 1)
-
-        assertEquals(Draw, ticTacToe.findWinner())
-    }
-
-    @Test
-    fun `when asked for a winner and there is no winner, it returns null`() {
-        val ticTacToe = TicTacToe()
-            .move(0, 0)
-
-        assertEquals(null, ticTacToe.findWinner())
-    }
-
-    @Test
-    fun `when O wins, the game ends`() {
-        val ticTacToe = TicTacToe()
-            .move(0, 0)
-            .move(0, 1)
-            .move(1, 2)
-            .move(1, 1)
-            .move(0, 2)
-            .move(2, 1)
-
-        assertEquals(O, ticTacToe.findWinner())
-    }
+private fun List<Pair<Int, Int>>.toTicTacToe(): TicTacToe {
+    var ticTacToe = TicTacToe()
+    this.forEach { (row, column) -> ticTacToe = ticTacToe.move(row, column) }
+    return ticTacToe
 }
