@@ -2,8 +2,8 @@ package com.devexperto.testingexpert.ui
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.devexperto.testingexpert.data.remote.MockWebServerRule
 import com.devexperto.testingexpert.idlingresources.OkHttp3IdlingResource
+import com.devexperto.testingexpert.remote.MockWebServerRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import okhttp3.OkHttpClient
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-abstract class InstrumentedUiTest {
+abstract class InstrumentedTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)

@@ -8,7 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.devexperto.testingexpert.R
 import com.devexperto.testingexpert.data.local.ScoreDao
 import com.devexperto.testingexpert.launchFragmentInHiltContainer
-import com.devexperto.testingexpert.ui.InstrumentedUiTest
+import com.devexperto.testingexpert.ui.InstrumentedTest
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class ScoreboardFragmentTest : InstrumentedUiTest() {
+class ScoreboardFragmentTest : InstrumentedTest() {
 
     @Inject
     lateinit var scoreDao: ScoreDao

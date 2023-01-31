@@ -1,4 +1,4 @@
-package com.devexperto.testingexpert.data.remote
+package com.devexperto.testingexpert.remote
 
 import androidx.test.platform.app.InstrumentationRegistry
 import okhttp3.mockwebserver.MockResponse

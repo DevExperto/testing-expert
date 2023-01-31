@@ -14,4 +14,4 @@ import dagger.hilt.testing.TestInstallIn
     replaces = [AppExtrasModule::class]
 )
 @Module
-object AndroidTestAppExtrasModule : TestAppExtrasModule
+object UnitTestAppExtrasModule : TestAppExtrasModule

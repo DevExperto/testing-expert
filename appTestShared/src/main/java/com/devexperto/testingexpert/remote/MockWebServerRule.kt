@@ -1,4 +1,4 @@
-package com.devexperto.testingexpert.data.remote
+package com.devexperto.testingexpert.remote
 
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
