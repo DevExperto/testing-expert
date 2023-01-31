@@ -33,4 +33,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
     implementation 'junit:junit:4.13.2'
+    implementation "androidx.compose.ui:ui-graphics:$compose_ui_version"
+    implementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
 }

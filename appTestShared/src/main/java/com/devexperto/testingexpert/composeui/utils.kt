@@ -1,5 +1,6 @@
 package com.devexperto.testingexpert.composeui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -10,7 +11,10 @@ import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert
 
+@SuppressLint("StaticFieldLeak")
 val ctx = InstrumentationRegistry.getInstrumentation().context
+
+@SuppressLint("StaticFieldLeak")
 val targetCtx: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
 fun hasText(
