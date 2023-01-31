@@ -15,5 +15,5 @@
     <string name="light">Light</string>
     <string name="dark">Dark</string>
     <string name="same_as_system">Same as system</string>
-    <string name="close">Close</string>
+    <string name="close">CLOSE</string>
 </resources>
