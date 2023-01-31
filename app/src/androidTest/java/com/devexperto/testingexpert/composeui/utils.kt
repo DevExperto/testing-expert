@@ -31,6 +31,16 @@ fun SemanticsNodeInteractionsProvider.onNodeWithText(
     return onNode(hasText(id, substring, ignoreCase), useUnmergedTree)
 }
 
+fun SemanticsNodeInteractionsProvider.onNodeWithContentDescription(
+    @StringRes id: Int,
+    substring: Boolean = false,
+    ignoreCase: Boolean = false,
+    useUnmergedTree: Boolean = false
+): SemanticsNodeInteraction {
+    val text = targetCtx.getString(id)
+    return onNodeWithContentDescription(text, substring, ignoreCase, useUnmergedTree)
+}
+
 fun SemanticsNodeInteraction.writeToTestStorage(assetFile: String) {
     val bitmap = captureToImage().asAndroidBitmap()
     bitmap.writeToTestStorage(assetFile)

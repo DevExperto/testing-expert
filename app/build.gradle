@@ -47,7 +47,7 @@ android {
     }
     packagingOptions {
         resources {
-            excludes += '/META-INF/*'
+            excludes += '/META-INF/{AL2.0,LGPL2.1,LICENSE-notice.md,LICENSE.md}'
         }
     }
     testOptions {
